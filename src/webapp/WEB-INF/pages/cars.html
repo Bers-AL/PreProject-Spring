@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cars</title>
+    <style>
+        table { border-collapse: collapse; }
+        th, td { border: 1px solid #999; padding: 6px 10px; }
+    </style>
+</head>
+<body>
+
+<h2>Cars</h2>
+
+<p th:if="${count != null}">
+    Показано машин: <b th:text="${#lists.size(cars)}">0</b>
+</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Year</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car, stat : ${cars}">
+        <td th:text="${stat.index + 1}"></td>
+        <td th:text="${car.brand}"></td>
+        <td th:text="${car.model}"></td>
+        <td th:text="${car.year}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
