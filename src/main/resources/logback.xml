@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Консоль -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="hiber" level="INFO"/>
+
+    <!-- Spring: DEBUG -->
+    <logger name="org.springframework" level="WARN"/>
+
+    <!-- Hibernate: WARN -->
+    <logger name="org.hibernate" level="WARN"/>
+
+    <!-- Чтобы видеть SQL -->
+    <!-- <logger name="org.hibernate.SQL" level="DEBUG"/> -->
+    <!-- <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/> -->
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
