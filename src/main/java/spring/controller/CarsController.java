@@ -27,8 +27,6 @@ public class CarsController {
 
         model.addAttribute("cars", cars);
 
-//        model.addAttribute("count", count);
-
         return "cars";
     }
 }
