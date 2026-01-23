@@ -1,0 +1,12 @@
+# Maven
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+docker-compose.yml
+spring_hibernate.iml
