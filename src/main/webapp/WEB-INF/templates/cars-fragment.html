@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="carsTable">
+    <!-- ожидаем в model: cars (List<Car>) и userId -->
+
+    <div th:if="${cars == null or #lists.isEmpty(cars)}" class="muted" style="margin-top:6px;">
+        Нет машин.
+    </div>
+
+    <!-- ВАЖНО: никакого <form> внутри <tr> (это ломает DOM в браузере). -->
+    <form id="addCarForm"
+          th:action="@{/users/{id}/cars(id=${userId})}"
+          method="post"
+          style="display:none"></form>
+
+    <table class="cars-table">
+        <thead>
+        <tr>
+            <th>Бренд</th>
+            <th>Модель</th>
+            <th>Год</th>
+            <th>Цвет</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- строка добавления -->
+        <tr>
+            <td>
+                <div class="cell-field">
+                    <div class="cell-label">Бренд</div>
+                    <input form="addCarForm" type="text" name="brand" placeholder="BMW" required>
+                </div>
+            </td>
+            <td>
+                <div class="cell-field">
+                    <div class="cell-label">Модель</div>
+                    <input form="addCarForm" type="text" name="model" placeholder="3" required>
+                </div>
+            </td>
+            <td>
+                <div class="cell-field">
+                    <div class="cell-label">Год</div>
+                    <input form="addCarForm" type="number" name="year" placeholder="2020" min="1900" max="2100">
+                </div>
+            </td>
+            <td>
+                <div class="cell-field">
+                    <div class="cell-label">Цвет</div>
+                    <div class="color-row">
+                        <input class="color-picker" type="color" value="#6ea8fe" aria-label="Выбор цвета">
+                        <input form="addCarForm" class="color-code" type="text" name="color" placeholder="#rrggbb">
+                    </div>
+                </div>
+            </td>
+            <td class="cars-actions-cell">
+                <button form="addCarForm" class="btn btn-primary" type="submit">Добавить</button>
+            </td>
+        </tr>
+
+        <!-- существующие машины -->
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.brand}">BMW</td>
+            <td th:text="${car.model}">3</td>
+            <td th:text="${car.year != null ? car.year : '-'}">2020</td>
+            <td>
+                <div class="color-cell">
+                    <span class="color-swatch"
+                          th:if="${car.color != null and !#strings.isEmpty(car.color)}"
+                          th:style="'background:' + ${car.color}"
+                          title="Цвет"></span>
+
+                    <span class="muted"
+                          th:text="${car.color == null || #strings.isEmpty(car.color) ? '-' : car.color}">#000000</span>
+                </div>
+            </td>
+            <td class="cars-actions-cell">
+                <form class="inline"
+                      th:action="@{/users/{uid}/cars/{cid}/delete(uid=${userId},cid=${car.id})}"
+                      method="post"
+                      onsubmit="return confirm('Удалить машину?')">
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
